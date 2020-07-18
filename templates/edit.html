@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>{{ page_title }}</h2>
+
+<a href="/">На главную</a>
+<form method='POST' action='/movies'>
+    <table>
+        <p>Редактирование фильма</p>
+        <input type='HIDDEN' name='id' value='{{ data[0][0] }}'>
+        <tr><td>Русскоязычное название:</td><td><input name='title_ru' type='TEXT' value='{{ data[0][1] }}'></td></tr>
+        <tr><td>Оригинальное название:</td><td><input name='title_orig' type='TEXT' value='{{ data[0][2] }}'></td></tr>
+        <tr><td>Год выпуска:</td><td><input name='rel_year' type='NUMBER' size='4' min='1888' max='2021' value='{{ data[0][3] }}'></td></tr>
+        <tr><td>Продолжительность (мин.):</td><td><input name='duration' type='NUMBER' size='3' min='0' max='999' value='{{ data[0][4] }}'></td></tr>
+        <tr><td>Описание:</td><td><textarea name='descr' rows='10' cols='50'>{{ data[0][5] }}</textarea></td></tr>
+        <tr><td>Жанр:</td><td><input name='genre' type='TEXT' size='30' value='{{ data[0][6] }}'></td></tr>
+        <tr><td>Возрастное ограничение:</td><td><select name='age_restr'>
+                                            <option value='0+' {% if data[0][7] == '0+' %}option selected{% endif %}>0+</option>
+                                            <option value='6+' {% if data[0][7] == '6+' %}option selected{% endif %}>6+</option>
+                                            <option value='12+' {% if data[0][7] == '12+' %}option selected{% endif %}>12+</option>
+                                            <option value='16+' {% if data[0][7] == '16+' %}option selected{% endif %}>16+</option>
+                                            <option value='18+' {% if data[0][7] == '18+' %}option selected{% endif %}>18+</option>
+                                         </select>
+                                     </td></tr>
+        <tr><td>Режиссёр:</td><td><input name='director' type='TEXT' value='{{ data[0][8] }}'></td></tr>
+        <tr><td>В ролях:</td><td><textarea name='cast' rows='5' cols='50'>{{ data[0][9] }}</textarea></td></tr>
+    </table>
+    <p>
+        <input value="Отправить" type="SUBMIT">
+    </p>
+</form>
+{% endblock %}      

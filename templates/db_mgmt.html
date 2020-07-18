@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>{{ page_title }}</h2>
+<a href='/'>На главную</a>
+<form method='POST' action='{{ action1 }}'>
+    <input value='Добавить' type='SUBMIT'>
+    <input value='Редактировать' type='SUBMIT' formaction='{{ action2 }}'>
+    <input value='Удалить' type='SUBMIT' formaction='{{ action3 }}'>
+    <table>
+        <tr>
+            <th></th>
+            {% for col_title in col_titles %}
+                <th>{{ col_title }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+            <tr>
+                <td><input type='checkbox' name='{{ row[0] }}' value='id'></td>
+                {% for item in row[1:] %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</form>
+
+{% endblock %}

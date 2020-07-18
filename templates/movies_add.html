@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>{{ page_title }}</h2>
+
+<a href="/">На главную</a>
+<form method='POST' action='/movies'>
+    <table>
+        <p><b>Введите информацию о фильме, который хотели бы добавить</b></p>
+        <tr><td>Русскоязычное название:</td><td><input name='title_ru' type='TEXT'></td></tr>
+        <tr><td>Оригинальное название:</td><td><input name='title_orig' type='TEXT'></td></tr>
+        <!-- rel_year max parameter should receive current year+1 -->
+        <tr><td>Год выпуска:</td><td><input name='rel_year' type='NUMBER' size='4' min='1888' max='2021'></td></tr>
+        <tr><td>Продолжительность (мин.):</td><td><input name='duration' type='NUMBER' size='3' min='0' max='999'></td></tr>
+        <tr><td>Описание:</td><td><textarea name='descr' rows='10' cols='50'></textarea></td></tr>
+        <tr><td>Жанр:</td><td><input name='genre' type='TEXT' size='30'></td></tr>
+        <tr><td>Возрастное ограничение:</td><td><select name='age_restr'>
+                                            <option value='0+'>0+</option>
+                                            <option value='6+'>6+</option>
+                                            <option value='12+'>12+</option>
+                                            <option value='16+'>16+</option>
+                                            <option value='18+'>18+</option>
+                                         </select>
+                                     </td></tr>
+        <tr><td>Режиссёр:</td><td><input name='director' type='TEXT'></td></tr>
+        <tr><td>В ролях:</td><td><textarea name='cast' rows='5' cols='50'></textarea></td></tr>
+    </table>
+    <p>
+        <input value="Отправить" type="SUBMIT">
+    </p>
+</form>
+
+{% endblock %}      

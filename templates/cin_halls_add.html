@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>{{ page_title }}</h2>
+
+<a href="/">На главную</a>
+<form method='POST' action='/cinema_halls'>
+    <table>
+        <p>Введите информацию о кинозале, который хотели бы добавить</p>
+        <tr><td>Название:</td><td><input name='name' type='TEXT' size='30'></td></tr>
+        <tr><td>Расположение:</td><td><textarea name='location' rows='5' cols='50'></textarea></td></tr>
+        <tr><td>Количество рядов:</td><td><input name='row_num' type='NUMBER' size='2' min='1' max='99'></td></tr>
+        <tr><td>Количество мест в ряду:</td><td><input name='seats_in_row' type='NUMBER' size='2' min='1' max='99'></td></tr>
+    </table>
+    <p>
+        <input value="Отправить" type="SUBMIT">
+    </p>
+</form>
+
+{% endblock %}      

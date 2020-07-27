@@ -2,12 +2,10 @@
 
 {% block body %}
 
-<h2>{{ page_title }}</h2>
-
-<a href="/">На главную</a>
-<form method='POST' action='/movies'>
-    <table>
-        <p>Редактирование фильма</p>
+<h3><a href="/">На главную</a></h3>
+<form action='/movies'>
+    <table class='add-form'>
+        <h3>Редактирование фильма</h3>
         <input type='HIDDEN' name='id' value='{{ data[0][0] }}'>
         <tr><td>Русскоязычное название:</td><td><input name='title_ru' type='TEXT' value='{{ data[0][1] }}'></td></tr>
         <tr><td>Оригинальное название:</td><td><input name='title_orig' type='TEXT' value='{{ data[0][2] }}'></td></tr>
@@ -26,8 +24,8 @@
         <tr><td>Режиссёр:</td><td><input name='director' type='TEXT' value='{{ data[0][8] }}'></td></tr>
         <tr><td>В ролях:</td><td><textarea name='cast' rows='5' cols='50'>{{ data[0][9] }}</textarea></td></tr>
     </table>
-    <p>
-        <input value="Отправить" type="SUBMIT">
-    </p>
+        <input class='button' value="Отправить" formmethod='POST' type="SUBMIT">
+        <input class='button' type='button' onclick='window.location.replace("{{ action1 }}")' value='Отмена'/>
 </form>
-{% endblock %}      
+
+{% endblock %}

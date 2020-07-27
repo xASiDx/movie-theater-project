@@ -1,11 +1,22 @@
 <!document html>
 <html>
     <head>
+        <meta charset='UTF-8'>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Russo+One&display=swap" rel="stylesheet">
         <title>{{ page_title }}</title>
-        <link rel='stylesheet' href='' />
+        <link rel='stylesheet' href='static/css/styles.css'>
+        <link rel='icon' href='static/images/favicon.ico'>
     </head>
     <body>
-        {% block body %}
+        <div class='top-block'>
+            <h2>{{ page_title }}</h2>
+        </div>
+        <div class='middle-block'>
+            {% block body %}
         
-        {% endblock %}
+            {% endblock %}
+        </div>
+        <div class='bottom-block'>
+            <p>Цапирайт и все дела</p>
+        </div>
     </body>

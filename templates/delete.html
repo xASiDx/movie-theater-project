@@ -2,24 +2,22 @@
 
 {% block body %}
 
-<h2>{{ page_title }}</h2>
-<a href='/'>На главную</a>
+<h3><a href='/'>На главную</a></h3>
 <form>
-    <p>Вы собираетесь удалить следующие {{ obj }}:</p>
-    <table>
+    <h3>Вы собираетесь удалить следующие {{ obj }}:</h3>
+    <table class='add-form'>
         {% for row in data %}
             <tr>
                 <td><input type='hidden' name='{{ row[0] }}' value='id'></td>
                 {% for item in row[1:] %}
-                    <td><b>{{ item }}</b></td>
+                    <td><em>{{ item }}</em></td>
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
-    <p>Вы уверены</p>
-    <input value='Да' type='SUBMIT' formmethod='POST' formaction='{{ action1 }}'>
-    <input class="button" type="button" onclick="window.location.replace('{{ action1 }}')" value="Отмена" />
-
+    <h4>Вы уверены</h4>
+    <input class='button' value='Да' type='SUBMIT' formmethod='POST' formaction='{{ action1 }}'>
+    <input class='button' type='button' onclick='window.location.replace("{{ action1 }}")' value='Отмена'/>
 </form>
 
 {% endblock %}

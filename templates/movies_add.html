@@ -2,12 +2,10 @@
 
 {% block body %}
 
-<h2>{{ page_title }}</h2>
-
-<a href="/">На главную</a>
+<h3><a href="/">На главную</a></h3>
 <form method='POST' action='/movies'>
-    <table>
-        <p><b>Введите информацию о фильме, который хотели бы добавить</b></p>
+    <table class='add-form'>
+        <h3>Введите информацию о фильме, который хотели бы добавить</h3>
         <tr><td>Русскоязычное название:</td><td><input name='title_ru' type='TEXT'></td></tr>
         <tr><td>Оригинальное название:</td><td><input name='title_orig' type='TEXT'></td></tr>
         <!-- rel_year max parameter should receive current year+1 -->
@@ -26,9 +24,8 @@
         <tr><td>Режиссёр:</td><td><input name='director' type='TEXT'></td></tr>
         <tr><td>В ролях:</td><td><textarea name='cast' rows='5' cols='50'></textarea></td></tr>
     </table>
-    <p>
-        <input value="Отправить" type="SUBMIT">
-    </p>
+        <input class='button' value="Отправить" type="SUBMIT">
+        <input class='button' type='button' onclick='window.location.replace("{{ action1 }}")' value='Отмена'/>
 </form>
 
 {% endblock %}      

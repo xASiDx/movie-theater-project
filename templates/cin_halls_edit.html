@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h3><a href="/">На главную</a></h3>
+<form method='POST' action='/cinema_halls'>
+    <table class='add-form'>
+        <h3>Редактирование информации о кинозале</h3>
+        <input type='HIDDEN' name='id' value='{{ data[0][0] }}'>
+        <tr><td>Название:</td><td><input name='name' type='TEXT' value='{{ data[0][1] }}' size='30'></td></tr>
+        <tr><td>Расположение:</td><td><textarea name='location' rows='5' cols='50'>{{ data[0][2] }}</textarea></td></tr>
+        <tr><td>Количество рядов:</td><td><input name='row_num' type='NUMBER' size='2' min='1' max='99' value='{{ data[0][3] }}'></td></tr>
+        <tr><td>Количество мест в ряду:</td><td><input name='seats_in_row' type='NUMBER' size='2' min='1' max='99' value='{{ data[0][4] }}'></td></tr>
+    </table>
+        <input class='button' value="Отправить" type="SUBMIT">
+        <input class='button' type='button' onclick='window.location.replace("{{ action1 }}")' value='Отмена'/>
+</form>
+
+{% endblock %}      

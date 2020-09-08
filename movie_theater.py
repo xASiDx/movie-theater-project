@@ -9,12 +9,14 @@ app.config["dbconfig"] = config.dbconfig
 
 @app.route("/")
 def entry_page() -> "html":
+    #I guess this isn't the best place to check if the main tables exist, but...
+    init_tables()
     title = "Добро пожаловать в кинотеатр \"У Сергеичей\"!"
     return render_template("index.html", page_title=title)
 
 @app.route("/movies", methods=["GET", "POST"])
 def movies_mgmt() -> "html":
-    #Delete requests only contain movie id values as dictionary keys,
+    #Delete requests contain only movie_id values as dictionary keys,
     #so if there are no other keys, then it is a delete request
     if request.method == "POST":
         try:
@@ -229,12 +231,32 @@ def db_add_cin_hall(req: "flask_request") -> None:
                    insert into {new_table_name}
                    (row_num, seat)
                    values """ + ", ".join(seats)
-        for result in cursor.execute(_SQL, multi=True):
-            print("\n", cursor.statement, "\n")
+        results = cursor.execute(_SQL, multi=True)
+        for cur in results:
+            print("\n", cur.statement, "\n")
 
 @app.route("/cinema_halls_edit", methods=["POST"])
 def edit_cin_hall() -> "html":
-    return render_template("index.html", page_title="Edit the cinema hall")
+    _SQL = """select *
+              from cin_halls
+              where """
+    _SQL, req_keys = add_id(_SQL, request)
+    _SQL += """ order by name"""
+    try:
+        contents = db_request(_SQL, *req_keys)
+        return render_template("cin_halls_edit.html",
+                            page_title="Edit the cinema hall",
+                            action1="/cinema_halls",
+                            data=contents)
+    except ConnectionError as err:
+        print("Database connection error:", str(err))
+    except CredentialsError as err:
+        print("Database authentication error:", str(err))
+    except SQLError as err:
+        print("Something is worng with the SQL request:", str(err))
+    except Exception as err:
+        print("Error:", str(err))
+    return "Error"
 
 @app.route("/cinema_halls_delete", methods=["POST"])
 def del_cin_hall() -> "html":
@@ -267,12 +289,13 @@ def db_del_cin_hall(req: "flask_request") -> None:
                   where """
         _SQL, req_keys = add_id(_SQL, request)
         cursor.execute(_SQL, req_keys)
-        #There shold be a more safe and elegant way to do this
+        #There shold be a safer and more elegant way to do this
         _SQL = """"""
         for c_h_id in req_keys:
-            _SQL += f"""drop table cin_hall_{c_h_id};"""
-        for result in cursor.execute(_SQL, multi=True):
-            pass
+            _SQL += f"""drop table if exists cin_hall_{c_h_id};"""
+        results = cursor.execute(_SQL, multi=True)
+        for cur in results:
+            print("\n", cur, "\n")
         
 
 def db_request(_SQL: str, *args) -> list:
@@ -281,6 +304,40 @@ def db_request(_SQL: str, *args) -> list:
         data = cursor.fetchall()
         #print(cursor.statement)
     return data
+
+def init_tables() -> None:
+    with UseDatabase(app.config["dbconfig"]) as cursor:
+        _SQL = """create table if not exists movies(
+                    id int primary key auto_increment,
+                    title_ru tinytext,
+                    title_orig tinytext,
+                    rel_year year,
+                    duration smallint,
+                    descr text,
+                    genre tinytext,
+                    age_restr tinytext,
+                    director tinytext,
+                    cast text
+                  );
+                  create table if not exists cin_halls(
+                      id int primary key auto_increment,
+                      name tinytext,
+                      location text
+                  );
+                  create table if not exists m_shows(
+                      id int primary key auto_increment,
+                      s_date date,
+                      s_time time,
+                      movie_id int not null,
+                      c_hall_id int not null,
+                      price smallint,
+                      foreign key (movie_id) references movies(id),
+                      foreign key (c_hall_id) references cin_halls(id)
+                  );
+                      """
+        results = cursor.execute(_SQL, multi=True)
+        for cur in results:
+            print("\n", cur, "\n")
 
 if __name__ == "__main__":
     app.run(debug=True)
